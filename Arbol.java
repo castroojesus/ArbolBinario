@@ -44,10 +44,21 @@ public class Arbol {
         }
     }
 
-    public void displayRootChildren() {
-        System.out.println("\n--- Contenido de la Raíz (" + root.getNombre() + ") ---");
-        for (Node child : root.getChildren()) {
-            System.out.println("- " + child.getNombre() + " (" + child.getTipo() + "), Hijos: " + child.getChildren().size());
+    public void displayTree() {
+        System.out.println("\n--- Estructura Completa del Árbol ---");
+        // Comienza la visualización desde el nodo raíz con sangría inicial ""
+        identar(this.root, "");
+    }
+
+   
+    private void identar(Node node, String indent) {
+        // 1. Imprime el nodo actual con la sangría proporcionada
+        System.out.println(indent + "- " + node.getNombre() + " (" + node.getTipo() + ")");
+
+        // 2. Recorre recursivamente los hijos del nodo actual, aumentando la sangría
+        for (Node child : node.getChildren()) {
+            
+            identar(child, indent + "  "); 
         }
     }
 
@@ -66,7 +77,7 @@ public class Arbol {
         miArbol.addChildren("Descargas","manual.pdf", "archivo", "Contenido del manual PDF.");
         miArbol.addChildren("/", "Musica", "carpeta", null);
         miArbol.addChildren("Musica","cancion.mp3", "archivo", "Contenido de la canción.");
-        miArbol.displayRootChildren();
+        miArbol.displayTree();
     }
 }
 
