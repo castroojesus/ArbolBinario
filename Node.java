@@ -2,32 +2,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-// Clase para el modelo de nodo en el Árbol General.
+// clase para el modelo de nodo en el Árbol general.
 public class Node {
 
-    private String id;          // identificador 
+    private String id;          // identificador único
     private String nombre;      // nombre del archivo o carpeta
     private String tipo;        // 'carpeta' o 'archivo'
     private String contenido;   // contenido para archivos
     private List<Node> children; // lista de nodos hijos
-
-    private Node parent;
+    private Node parent;        // referencia al padre
 
     public Node(String nombre, String tipo, String contenido, Node parent) {
-        // genera un ID 
+        // Genera un ID
         this.id = UUID.randomUUID().toString();
         this.nombre = nombre;
         this.tipo = tipo.toLowerCase();
         this.parent = parent;
         this.children = new ArrayList<>();
 
-        //contemido solo para archivos
+        // contenido para archivos
         if ("archivo".equals(this.tipo)) {
             this.contenido = contenido;
         } else {
             this.contenido = null;
         }
     }
+
 
     public String getId() {
         return id;
@@ -74,7 +74,6 @@ public class Node {
                 ", hijos=" + children.size() +
                 '}';
     }
-
 
    //preubas para la class node el mvp (minimo producto viable)
     public static void main(String[] args) {

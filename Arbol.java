@@ -1,82 +1,200 @@
-// Archivo: Arbol.java
+import java.util.List;
+import java.util.ArrayList;
+//import java.util.Collections; 
 
 public class Arbol {
 
-    private Node root; // Aquí se hace referencia a la clase Node
+    private Node root; 
+    private List<Node> trashCan; // papelera temporal
 
     public Arbol(String rootName) {
-        // Creamos el nodo raíz usando la clase Node
         this.root = new Node(rootName, "carpeta", null, null);
-        System.out.println("Árbol creado con raíz: " + this.root.getNombre());
+        this.trashCan = new ArrayList<>(); 
     }
-
-    // Método de ejemplo para añadir un nodo
-    public Node findFolder(String folderName, Node currentNode) {
+    // busqueda de nodo por nombre (recursiva)
+    public Node findNodeByName(String targetName, Node currentNode) {
         if (currentNode == null) {
             return null;
         }
-        if (currentNode.getNombre().equals(folderName) && currentNode.getTipo().equals("carpeta")) {
+        if (currentNode.getNombre().equals(targetName)) {
             return currentNode;
         }
         for (Node child : currentNode.getChildren()) {
-            Node result = findFolder(folderName, child);
+            // busqueda recursiva
+            Node result = findNodeByName(targetName, child);
             if (result != null) {
                 return result;
             }
         }
         return null;
     }
-    //funcion para añadir nodos hijos que usa como parametros el nombre del padre, nombre del hijo, tipo de hijo y contenido
+
+//=============== OPERACIONES DEL ÁRBOL ===============
+    // insertar Nodos
     public void addChildren(String parent, String child, String childtype, String content) {
-        //creamos un nodo folder buscando el padre
-        Node folder = findFolder(parent, this.root);
-        if (folder != null) { //si existe el padre verificamos si es del tipo carpeta
-            if("carpeta".equals(folder.getTipo())) {
-                //si es el caso creamos el nuevo nodo hijo
-                Node newNode = new Node(child, childtype, content, folder);
-                folder.getChildren().add(newNode);
-                System.out.println("Nodo añadido: " + newNode.getNombre() + " bajo la carpeta: " + folder.getNombre());
-            } else {
-                System.out.println("Tipo de nodo inválido: " + childtype);
-            }
+        // usamos findNodeByName para encontrar tanto archivos como carpetas, pero validamos que sea carpeta
+        Node folder = findNodeByName(parent, this.root); 
+        
+        // también se debe validar que el nodo hijo no exista ya en la carpeta
+        if (folder != null && "carpeta".equals(folder.getTipo())) {
+            Node newNode = new Node(child, childtype, content, folder);
+            folder.getChildren().add(newNode);
+             System.out.println("Nodo añadido: " + newNode.getNombre() + " bajo la carpeta: " + folder.getNombre());
         } else {
-            System.out.println("Carpeta no encontrada: " + parent);
+             System.out.println("Error. Carpeta no encontrada o tipo inválido.");
         }
     }
+    
+    // eliminar Nodo (mover a papelera)
+    public boolean removeNode(String targetName) {
+        Node target = findNodeByName(targetName, this.root);
 
-    public void displayTree() {
-        System.out.println("\n--- Estructura Completa del Árbol ---");
-        // Comienza la visualización desde el nodo raíz con sangría inicial ""
-        identar(this.root, "");
+        if (target == null || target.equals(this.root)) {
+            System.out.println("Error. Nodo no existe o no se puede eliminar la raíz.");
+            return false;
+        }
+
+        Node parent = target.getParent();
+        if (parent != null) {
+            // desconectar del padre
+            parent.getChildren().remove(target);
+            
+            // mover a la papelera 
+            this.trashCan.add(target);
+            target.setParent(null); // desconecta la referencia al padre
+            
+            System.out.println("Nodo '" + targetName + "' movido a la papelera.");
+            return true;
+        }
+        return false;
+    }
+    
+    // mover Nodo
+    public boolean moveNode(String targetName, String destinationName) {
+        Node target = findNodeByName(targetName, this.root); 
+        Node destination = findNodeByName(destinationName, this.root); 
+
+        if (target == null || destination == null || target.equals(this.root) || !destination.getTipo().equals("carpeta")) {
+            System.out.println("Error al mover. Origen/destino inválido.");
+            return false;
+        }
+
+        Node oldParent = target.getParent();
+        oldParent.getChildren().remove(target); // desconectar
+
+        destination.getChildren().add(target);
+        target.setParent(destination); // reconectar
+
+        System.out.println("Nodo '" + targetName + "' movido a: " + destinationName);
+        return true;
     }
 
-   
-    private void identar(Node node, String indent) {
-        // 1. Imprime el nodo actual con la sangría proporcionada
-        System.out.println(indent + "- " + node.getNombre() + " (" + node.getTipo() + ")");
+    // renombrar Nodo
+    public boolean renameNode(String oldName, String newName) {
+        Node target = findNodeByName(oldName, this.root);
 
-        // 2. Recorre recursivamente los hijos del nodo actual, aumentando la sangría
+        if (target == null || newName.isEmpty()) {
+            System.out.println("Error. Nodo '" + oldName + "' no encontrado o nombre inválido.");
+            return false;
+        }
+        target.setNombre(newName);
+        System.out.println("Nodo '" + oldName + "' renombrado a: " + newName);
+        return true;
+    }
+
+    // ======== MEDICIONES DEL ÁRBOL ========
+ // calcular altura
+    public int calculateHeight(Node node) {
+        if (node == null || node.getChildren().isEmpty()) {
+            return 0;
+        }
+        int maxHeight = 0;
         for (Node child : node.getChildren()) {
-            
+            maxHeight = Math.max(maxHeight, calculateHeight(child));
+        }
+        return 1 + maxHeight;
+    }
+    // obtener altura del árbol
+    public int getHeight() {
+        return calculateHeight(this.root);
+    }
+// calcular tamaño
+    public int calculateSize(Node node) {
+        if (node == null) {
+            return 0;
+        }
+        int size = 1;
+        for (Node child : node.getChildren()) {
+            size += calculateSize(child);
+        }
+        return size;
+    }
+    // obtener tamaño del árbol
+    public int getSize() {
+        return calculateSize(this.root);
+    }
+    
+    //========== VISUALIZACIÓN DEL ÁRBOL ==========
+// mostrar estructura del árbol
+    public void displayTree() {
+        System.out.println("\n=== ESTRUCTURA DEL ÁRBOL ===");
+        identar(this.root, "");
+        System.out.println("============================");
+    }
+   // metodo recursivo para indentar y mostrar
+    private void identar(Node node, String indent) {
+        String typeIndicator = node.getTipo().equals("carpeta") ? "[DIR]" : "[FILE]";
+        System.out.println(indent + typeIndicator + " " + node.getNombre());
+        for (Node child : node.getChildren()) {
             identar(child, indent + "  "); 
         }
     }
-
-    // Método main para probar la clase Arbol
+    
+    // -============ PRUEBAS UNITARIAS DEL ÁRBOL =============
     public static void main(String[] args) {
         Arbol miArbol = new Arbol("/");
+        System.out.println("Árbol inicializado.");
+        
+        // ============ PRUEBA DE INSERCIÓN Y TAMAÑO =============
+        miArbol.addChildren("/", "Docs", "carpeta", null);
+        miArbol.addChildren("Docs","info.pdf", "archivo", "Contenido A.");
+        miArbol.addChildren("/", "Fotos", "carpeta", null);
+        miArbol.addChildren("Fotos","vacaciones.jpg", "archivo", "Contenido B.");
+        
+        int expectedSize = 5;
+        int expectedHeight = 2;
+      
+        System.out.println("\n--- PRUEBA INICIAL ---");
+        System.out.println("Tamaño esperado: " + expectedSize + " | Tamaño real: " + miArbol.getSize()); 
+        System.out.println("Altura esperada: " + expectedHeight + " | Altura real: " + miArbol.getHeight()); 
+        
+        if (miArbol.getSize() == expectedSize && miArbol.getHeight() == expectedHeight) {
+             System.out.println("Tamaño y Altura correctos.");
+        } else {
+             System.out.println("Tamaño o Altura incorrectos.");
+        }
+        miArbol.displayTree();
+        
+        // ============= PRUEBA DE RENOMBRAR Y MOVER ================ 
+        miArbol.renameNode("Fotos", "Images"); // renombrar
+        miArbol.moveNode("vacaciones.jpg", "Docs"); // mover archivo a Docs
+        
+        // ================= PRUEBA DE ELIMINACIÓN ===================
+        miArbol.removeNode("Docs"); // elimina Docs y su contenido 
+        
+        int expectedSizeAfterDelete = 2;
+        int expectedTrashSize = 3; 
 
-        // Usamos métodos que internamente utilizan la clase Node
-        miArbol.addChildren("/", "Documentos", "carpeta", null);
-        miArbol.addChildren("Documentos","informe.pdf", "archivo", "Contenido del informe.");
-        miArbol.addChildren("Documentos","resumen.txt", "archivo", "Contenido del informe.");
-        miArbol.addChildren("/", "Imagenes", "carpeta", null);
-        miArbol.addChildren("Imagenes","foto.jpg", "archivo", "Contenido de la foto.");
-        miArbol.addChildren("/", "Descargas", "carpeta", null);
-        miArbol.addChildren("Descargas","setup.exe", "archivo", "Contenido del ejecutable.");
-        miArbol.addChildren("Descargas","manual.pdf", "archivo", "Contenido del manual PDF.");
-        miArbol.addChildren("/", "Musica", "carpeta", null);
-        miArbol.addChildren("Musica","cancion.mp3", "archivo", "Contenido de la canción.");
+        System.out.println("\n--- PRUEBA DE ELIMINACIÓN ---");
+        System.out.println("Tamaño después de eliminar Docs: " + miArbol.getSize());
+        System.out.println("Elementos en papelera: " + miArbol.trashCan.size());
+        
+        if (miArbol.getSize() == expectedSizeAfterDelete && miArbol.trashCan.size() == expectedTrashSize) {
+             System.out.println("Move/Delete correctos.");
+        } else {
+             System.out.println("Move/Delete incorrectos.");
+        }
+
         miArbol.displayTree();
     }
 }
