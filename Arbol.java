@@ -1,6 +1,8 @@
-import java.util.List;
+import java.io.FileWriter;
+import java.io.IOException; 
 import java.util.ArrayList;
-//import java.util.Collections; 
+import java.util.List; 
+
 
 public class Arbol {
 
@@ -133,6 +135,77 @@ public class Arbol {
     public int getSize() {
         return calculateSize(this.root);
     }
+    // ======== EXPORTAR ÁRBOL A JSON ========
+    public void exportToJson(String filename) {
+        try (FileWriter writer = new FileWriter(filename)) {
+            writer.write(toJsonString(this.root, 0));
+            System.out.println("✅ Árbol exportado a: " + filename);
+        } catch (IOException e) {
+            System.out.println("❌ Error al exportar: " + e.getMessage());
+        }
+    }
+
+    public void exportTrashToJson(String filename) {
+        try (FileWriter writer = new FileWriter(filename)) {
+            writer.write("[\n");
+            for (int i = 0; i < trashCan.size(); i++) {
+                Node node = trashCan.get(i);
+                writer.write("  " + toJsonString(node, 2));
+                if (i < trashCan.size() - 1) {
+                    writer.write(",");
+                }
+                writer.write("\n");
+            }
+            writer.write("]");
+            System.out.println("✅ Papelera exportada a: " + filename);
+        } catch (IOException e) {
+            System.out.println("❌ Error al exportar papelera: " + e.getMessage());
+        }
+    }
+    
+    private String toJsonString(Node node, int indent) {
+        StringBuilder sb = new StringBuilder();
+        String spaces = "  ".repeat(indent);
+        
+        sb.append(spaces).append("{\n");
+        sb.append(spaces).append("  \"id\": \"").append(escapeJson(node.getId())).append("\",\n");
+        sb.append(spaces).append("  \"nombre\": \"").append(escapeJson(node.getNombre())).append("\",\n");
+        sb.append(spaces).append("  \"tipo\": \"").append(escapeJson(node.getTipo())).append("\",\n");
+        sb.append(spaces).append("  \"contenido\": ");
+        
+        if (node.getContenido() == null) {
+            sb.append("null");
+        } else {
+            sb.append("\"").append(escapeJson(node.getContenido())).append("\"");
+        }
+        
+        sb.append(",\n");
+        sb.append(spaces).append("  \"children\": [\n");
+        
+        List<Node> children = node.getChildren();
+        for (int i = 0; i < children.size(); i++) {
+            sb.append(toJsonString(children.get(i), indent + 2));
+            if (i < children.size() - 1) {
+                sb.append(",");
+            }
+            sb.append("\n");
+        }
+        
+        sb.append(spaces).append("  ]\n");
+        sb.append(spaces).append("}");
+        
+        return sb.toString();
+    }
+    
+    private String escapeJson(String text) {
+        if (text == null) return "";
+        return text.replace("\\", "\\\\")
+                  .replace("\"", "\\\"")
+                  .replace("\n", "\\n")
+                  .replace("\r", "\\r")
+                  .replace("\t", "\\t");
+    }
+    
     
     //========== VISUALIZACIÓN DEL ÁRBOL ==========
 // mostrar estructura del árbol
@@ -167,6 +240,8 @@ public class Arbol {
         System.out.println("\n--- PRUEBA INICIAL ---");
         System.out.println("Tamaño esperado: " + expectedSize + " | Tamaño real: " + miArbol.getSize()); 
         System.out.println("Altura esperada: " + expectedHeight + " | Altura real: " + miArbol.getHeight()); 
+
+        miArbol.exportToJson("Organizacion.json");
         
         if (miArbol.getSize() == expectedSize && miArbol.getHeight() == expectedHeight) {
              System.out.println("Tamaño y Altura correctos.");

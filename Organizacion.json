@@ -1,77 +1,40 @@
 {
-   
-    "id":"root-1234",
-    "nombre":"/",
-    "tipo":"carpeta",
-    "contenido":null,
-    "children":[
+  "id": "2dba879a-429f-4577-a709-f9d78b6bb2ff",
+  "nombre": "/",
+  "tipo": "carpeta",
+  "contenido": null,
+  "children": [
+    {
+      "id": "63ed0f54-c6f3-415b-800a-2aa3453878d2",
+      "nombre": "Docs",
+      "tipo": "carpeta",
+      "contenido": null,
+      "children": [
         {
-            "id":"folder-5678",
-            "nombre":"Documentos",
-            "tipo":"carpeta",
-            "contenido":null,
-            "children":[
-                {
-                    "id":"file-91011",
-                    "nombre":"informe.pdf",
-                    "tipo":"archivo",
-                    "contenido":"Contenido del informe PDF"
-                },
-                {
-                    "id":"file-121314",
-                    "nombre":"resumen.txt",
-                    "tipo":"archivo",
-                    "contenido":"Contenido del resumen TXT"
-                }
-            ]
-        },
-        {
-            "id":"folder-151617",
-            "nombre":"Imagenes",
-            "tipo":"carpeta",
-            "contenido":null,
-            "children":[
-                {
-                    "id":"file-181920",
-                    "nombre":"foto.jpg",
-                    "tipo":"archivo",
-                    "contenido":"Contenido de la foto JPG"
-                }
-            ]
-        },
-        {
-            "id":"folder-181920",
-            "nombre":"Descargas",
-            "tipo":"carpeta",
-            "contenido":null,
-            "children":[
-                {
-                    "id":"file-212223",
-                    "nombre":"setup.exe",
-                    "tipo":"archivo",
-                    "contenido":"Contenido del instalador EXE"
-                },
-                {
-                    "id":"file-242526",
-                    "nombre":"manual.pdf",
-                    "tipo":"archivo",
-                    "contenido":"Contenido del manual PDF"
-                }
-            ]
-        },
-        {
-            "id":"folder-212223",
-            "nombre":"Musica",
-            "tipo":"carpeta",
-            "contenido":null,
-            "children":[
-                {
-                    "id":"file-272829",
-                    "nombre":"cancion.mp3",
-                    "tipo":"archivo",
-                    "contenido":"Contenido de la cancion MP3"
-                }
-            ]
+          "id": "867f8162-f220-4beb-bd07-a41473270685",
+          "nombre": "info.pdf",
+          "tipo": "archivo",
+          "contenido": "Contenido A.",
+          "children": [
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "id": "570f9f8f-3ba4-485f-ac22-6028d8280f06",
+      "nombre": "Fotos",
+      "tipo": "carpeta",
+      "contenido": null,
+      "children": [
+        {
+          "id": "5c41c79d-39e7-4259-a28d-fe5dad10514c",
+          "nombre": "vacaciones.jpg",
+          "tipo": "archivo",
+          "contenido": "Contenido B.",
+          "children": [
+          ]
+        }
+      ]
+    }
+  ]
 }
