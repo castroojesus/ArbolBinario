@@ -10,7 +10,7 @@ public class Node {
     private String tipo;        // 'carpeta' o 'archivo'
     private String contenido;   // contenido para archivos
     private List<Node> children; // lista de nodos hijos
-    private Node parent;        // referencia al padre
+    private transient Node parent;        // referencia al padre
 
     public Node(String nombre, String tipo, String contenido, Node parent) {
         // Genera un ID
