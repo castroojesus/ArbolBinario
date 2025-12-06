@@ -2,6 +2,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+//import java.io.IOException; 
+//import java.util.ArrayList;
+//import java.util.List; 
 
 public class Arbol {
 
@@ -127,6 +130,23 @@ public class Arbol {
             System.out.println("Error al exportar: " + e.getMessage());
         }
     }
+    public void exportTrashToJson(String filename) {
+        try (FileWriter writer = new FileWriter(filename)) {
+            writer.write("[\n");
+            for (int i = 0; i < trashCan.size(); i++) {
+                Node node = trashCan.get(i);
+                writer.write("  " + toJsonString(node, 2));
+                if (i < trashCan.size() - 1) {
+                    writer.write(",");
+                }
+                writer.write("\n");
+            }
+            writer.write("]");
+            System.out.println("Papelera exportada a: " + filename);
+        } catch (IOException e) {
+            System.out.println("Error al exportar papelera: " + e.getMessage());
+        }
+    }
     
     // implemnentación del JSON
     private String toJsonString(Node node, int indent) {
@@ -218,6 +238,32 @@ public class Arbol {
         System.out.println("\n--- CONSISTENCIA ---");
         System.out.println("Tamaño: " + miArbol.getSize()); 
         System.out.println("Altura: " + miArbol.getHeight()); 
+
+        int expectedSize = 5;
+        int expectedHeight = 2;
+      
+        System.out.println("\n--- PRUEBA INICIAL ---");
+        System.out.println("Tamaño esperado: " + expectedSize + " | Tamaño real: " + miArbol.getSize()); 
+        System.out.println("Altura esperada: " + expectedHeight + " | Altura real: " + miArbol.getHeight()); 
+
+        miArbol.exportToJson("Organizacion.json");
+        
+        if (miArbol.getSize() == expectedSize && miArbol.getHeight() == expectedHeight) {
+             System.out.println("Tamaño y Altura correctos.");
+        } else {
+             System.out.println("Tamaño o Altura incorrectos.");
+        }
+        miArbol.displayTree();
+        
+        // ============= PRUEBA DE RENOMBRAR Y MOVER ================ 
+        miArbol.renameNode("Fotos", "Images"); // renombrar
+        miArbol.moveNode("vacaciones.jpg", "Docs"); // mover archivo a Docs
+        
+        // ================= PRUEBA DE ELIMINACIÓN ===================
+        miArbol.removeNode("Docs"); // elimina Docs y su contenido 
+        
+        //int expectedSizeAfterDelete = 2;
+        //int expectedTrashSize = 3; 
 
         // Prueba de Búsqueda (Día 6)
         miArbol.searchAutocomplete("doc");
