@@ -139,9 +139,9 @@ public class Arbol {
     public void exportToJson(String filename) {
         try (FileWriter writer = new FileWriter(filename)) {
             writer.write(toJsonString(this.root, 0));
-            System.out.println("✅ Árbol exportado a: " + filename);
+            System.out.println(" Árbol exportado a: " + filename);
         } catch (IOException e) {
-            System.out.println("❌ Error al exportar: " + e.getMessage());
+            System.out.println(" Error al exportar: " + e.getMessage());
         }
     }
 
@@ -157,9 +157,9 @@ public class Arbol {
                 writer.write("\n");
             }
             writer.write("]");
-            System.out.println("✅ Papelera exportada a: " + filename);
+            System.out.println("Papelera exportada a: " + filename);
         } catch (IOException e) {
-            System.out.println("❌ Error al exportar papelera: " + e.getMessage());
+            System.out.println("Error al exportar papelera: " + e.getMessage());
         }
     }
     
