@@ -5,7 +5,7 @@ public class TrieNode {
     
     private Map<Character, TrieNode> children; 
     private boolean isEndOfWord; 
-    private String nodeId; // ID del nodo del Arbol.java 
+    private String nodeId; // ID del nodo del Arbol.java asociado a la palabra
 
     public TrieNode() {
         children = new HashMap<>();

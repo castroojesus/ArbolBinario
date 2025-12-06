@@ -1,17 +1,17 @@
 {
-  "id": "c34e5123-ffe0-4474-8062-b1de62ef7cda",
+  "id": "27761e6e-6156-411e-bc19-eb781be5ecd7",
   "nombre": "/",
   "tipo": "carpeta",
   "contenido": null,
   "children": [
     {
-      "id": "7f541b61-ff19-4a43-b8f2-be60b76385d7",
+      "id": "6d55b736-584a-4c2d-9d48-5d49211888ef",
       "nombre": "Documentos",
       "tipo": "carpeta",
       "contenido": null,
       "children": [
         {
-          "id": "59de492c-71f8-4818-a9b2-5e2e09b91c07",
+          "id": "7057e5c8-f170-41f7-95bc-a2bc20c082e6",
           "nombre": "informe.pdf",
           "tipo": "archivo",
           "contenido": "Contenido A.",
@@ -21,13 +21,13 @@
       ]
     },
     {
-      "id": "3363fb78-f340-4fbe-842d-2ba81bd245d0",
+      "id": "500d7cd3-a3f2-4f7d-942c-78e58d231b5e",
       "nombre": "Informes",
       "tipo": "carpeta",
       "contenido": null,
       "children": [
         {
-          "id": "f5e2b09e-047d-49b6-b561-7777e08f6ffb",
+          "id": "8c1e7265-ebd9-485f-8be2-450f6393905a",
           "nombre": "resumen.txt",
           "tipo": "archivo",
           "contenido": "Contenido B.",

@@ -23,7 +23,7 @@ public class Trie {
         current.setNodeId(nodeId); 
     }
 
-    // autocompletado, devulve una lista de nombres que empiezan igual 
+    // autocompletado, devulve una lista de nombres que empiezan con el mismo prefijo  
     public List<String> autocomplete(String prefix) {
         List<String> results = new ArrayList<>();
         TrieNode current = root;

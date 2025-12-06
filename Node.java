@@ -10,7 +10,7 @@ public class Node {
     private String tipo;        
     private String contenido;   
     private List<Node> children; 
-    private transient Node parent; // 'transient' para ignorar en la serialización JSON
+    private transient Node parent; 
 
     public Node(String nombre, String tipo, String contenido, Node parent) {
         this.id = UUID.randomUUID().toString();

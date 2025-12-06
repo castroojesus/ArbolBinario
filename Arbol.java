@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 //import java.io.IOException; 
 //import java.util.ArrayList;
-//import java.util.List; 
+//import java.util.List;    
 
+// clase principal del Árbol
 public class Arbol {
 
     private Node root; 
