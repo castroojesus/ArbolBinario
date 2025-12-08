@@ -1,5 +1,7 @@
 import java.util.List;
 
+import javax.swing.JFrame;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -233,6 +235,12 @@ public class Arbol {
 	    }
 	    
 	    public static void main(String[] args) {
+	        //interfaz grafica v1.0 (Dia 7)
+	    	JFrame window = new JFrame();
+	    	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    	window.setResizable(false);
+	    	window.setTitle("CMD");
+	    	
 	        Arbol miArbol = new Arbol("/");
 	        
 	        // Creación e indexación (Día 2 & Día 5)
@@ -240,6 +248,16 @@ public class Arbol {
 	        miArbol.addChildren("Documentos","informe.pdf", "archivo", "Contenido A.");
 	        miArbol.addChildren("Documentos","resumen.txt", "archivo", "Contenido B.");
 	        miArbol.addChildren("/", "Reportes", "carpeta", null);
+	        GamePanel gamePanel=new GamePanel(miArbol);
+	        window.add(gamePanel);
+	    	
+	    	window.pack();
+	    	window.setLocationRelativeTo(null);
+	    	window.setVisible(true);
+	    	gamePanel.startGameThread();
+	        
+	        System.out.println("Sistema iniciado correctamente");
+	        System.out.println("   Usa F1 en la ventana para ayuda");
 	        
 	        // Pruebas de Consistencia (Día 3)
 	        System.out.println("\n--- CONSISTENCIA ---");
