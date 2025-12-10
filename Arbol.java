@@ -1,6 +1,7 @@
 import java.util.List;
+import java.util.Scanner;
 
-import javax.swing.JFrame;
+
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -134,13 +135,14 @@ public class Arbol {
 	    public int getSize() { return calculateSize(this.root); }
 
 	    // ================= PERSISTENCIA JSON ====================
-
+	    
+	    //exportar arbol a archivo .json
 	    public void exportToJSON(String rutaArchivo) {
 	        try (FileWriter writer = new FileWriter(rutaArchivo)) {
 	            gson.toJson(this.root, writer);
-	            System.out.println("Árbol exportado: " + rutaArchivo);
+	            System.out.println("✅ Árbol exportado: " + rutaArchivo);
 	        } catch (IOException e) {
-	            System.out.println(" Error al exportar: " + e.getMessage());
+	            System.out.println("❌ Error al exportar: " + e.getMessage());
 	        }
 	    }
 	    
@@ -148,7 +150,59 @@ public class Arbol {
 	    public String exportarArbolToString() {
 	        return gson.toJson(this.root);
 	    }
+	    //exportar la papelera a un json
+	    public void exportTrashCanToJSON(String nombreArchivo) {
+	        try (FileWriter writer = new FileWriter(nombreArchivo)) {
+	            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	            gson.toJson(this.trashCan, writer);
+	            
+	            System.out.println("Papelera exportada: " + nombreArchivo);
+	            System.out.println("Elementos: " + trashCan.size());
+	            
+	        } catch (IOException e) {
+	            System.out.println("Error al exportar: " + e.getMessage());
+	        }
+	    }
 	    
+	    public void importTrashCanToJSON(String nombreArchivo) {
+	        try (FileReader reader = new FileReader(nombreArchivo)) {
+	            Gson gson = new Gson();
+	            java.lang.reflect.Type tipoLista = 
+	                new com.google.gson.reflect.TypeToken<List<Node>>(){}.getType();
+	            
+	            List<Node> elementosImportados = gson.fromJson(reader, tipoLista);
+	            
+	            if (elementosImportados == null) {
+	                System.out.println("⚠Archivo vacío o inválido");
+	                return;
+	            }
+	            
+	            // Añadir elementos importados a la papelera actual
+	            int agregados = 0;
+	            for (Node nodo : elementosImportados) {
+	                this.trashCan.add(nodo);
+	                agregados++;
+	            }
+	            
+	            System.out.println("Papelera importada: " + nombreArchivo);
+	            System.out.println("Elementos añadidos: " + agregados);
+	            System.out.println("Total en papelera: " + trashCan.size());
+	            
+	        } catch (FileNotFoundException e) {
+	            System.out.println(" Archivo no encontrado: " + nombreArchivo);
+	        } catch (IOException e) {
+	            System.out.println("❌ Error al leer archivo: " + e.getMessage());
+	        }
+	    }
+	    
+	    public void CleanTrashCan() {
+	        int cantidad = trashCan.size();
+	        trashCan.clear();
+	        System.out.println("Papelera vaciada");
+	        System.out.println("Elementos eliminados: " + cantidad);
+	    }
+	    
+	    //importar arbol de archivo .json
 	    public void importFromJSON(String rutaArchivo) {
 	        try (FileReader reader = new FileReader(rutaArchivo)) {
 	            Node nuevoArbol = gson.fromJson(reader, Node.class);
@@ -160,11 +214,11 @@ public class Arbol {
 	            this.root = nuevoArbol;
 	            reconstruirPadres(this.root, null);
 	            
-	            System.out.println("Árbol importado: " + rutaArchivo);
+	            System.out.println("✅ Árbol importado: " + rutaArchivo);
 	        } catch (FileNotFoundException e) {
-	            System.out.println("Archivo no encontrado: " + rutaArchivo);
+	            System.out.println("❌ Archivo no encontrado: " + rutaArchivo);
 	        } catch (IOException e) {
-	            System.out.println("Error: " + e.getMessage());
+	            System.out.println("❌ Error: " + e.getMessage());
 	        }
 	    }
 	    
@@ -180,9 +234,9 @@ public class Arbol {
 	            this.root = nuevoArbol;
 	            reconstruirPadres(this.root, null);
 	            
-	            System.out.println(" Árbol importado desde string");
+	            System.out.println("✅ Árbol importado desde string");
 	        } catch (Exception e) {
-	            System.out.println(" Error al importar: " + e.getMessage());
+	            System.out.println("❌ Error al importar: " + e.getMessage());
 	        }
 	    }
 	    
@@ -235,29 +289,157 @@ public class Arbol {
 	    }
 	    
 	    public static void main(String[] args) {
-	        //interfaz grafica v1.0 (Dia 7)
-	    	JFrame window = new JFrame();
-	    	window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    	window.setResizable(false);
-	    	window.setTitle("CMD");
+	    	Scanner input = new Scanner(System.in);
 	    	
 	        Arbol miArbol = new Arbol("/");
 	        
-	        // Creación e indexación (Día 2 & Día 5)
-	        miArbol.addChildren("/", "Documentos", "carpeta", null);
-	        miArbol.addChildren("Documentos","informe.pdf", "archivo", "Contenido A.");
-	        miArbol.addChildren("Documentos","resumen.txt", "archivo", "Contenido B.");
-	        miArbol.addChildren("/", "Reportes", "carpeta", null);
-	        GamePanel gamePanel=new GamePanel(miArbol);
-	        window.add(gamePanel);
-	    	
-	    	window.pack();
-	    	window.setLocationRelativeTo(null);
-	    	window.setVisible(true);
-	    	gamePanel.startGameThread();
+	        while (true) {
+	        	System.out.println("------------MENU-------------");
+	            System.out.println("1 - mkdir");
+	            System.out.println("2 - touch");
+	            System.out.println("3 - rm");
+	            System.out.println("4 - mv");
+	            System.out.println("5 - search");
+	            System.out.println("6 - height");
+	            System.out.println("7 - size");
+	            System.out.println("8 - export");
+	            System.out.println("9 - help");
+	            System.out.println("10 - exit");
+	            System.out.println("0 - show");
+	            System.out.print(" ");
+	            
+	            String opcion = input.nextLine();
+	            
+	            switch (opcion) {
+	                case "mkdir":
+	                	// Creación e indexación (Día 2 & Día 5)
+	                	System.out.println("Creando carpetas/archivos...");
+	        	        miArbol.addChildren("/", "Documentos", "carpeta", null);
+	        	        miArbol.addChildren("Documentos","informe.pdf", "archivo", "Contenido A.");
+	        	        miArbol.addChildren("Documentos","resumen.txt", "archivo", "Contenido B.");
+	        	        miArbol.addChildren("/", "Reportes", "carpeta", null);
+	        	        
+	                    //System.out.print("insert ");
+	                    //int valueInsert = Integer.parseInt(input.nextLine());
+	                    // arbol.insert(valueInsert);
+	                    //System.out.println("Insertado: " + valueInsert);
+	                    break;
+	                    
+	                case "touch":
+	                	System.out.println("Copiar...");
+	                    //System.out.print("search ");
+	                    //int valueSearch = Integer.parseInt(input.nextLine());
+	                    // arbol.search(valueSearch);
+	                    //System.out.println("Buscando: " + valueSearch);
+	                    break;
+	                    
+	                case "rm":
+	                	
+	                	 // ================= PRUEBA DE ELIMINACIÓN ===================
+	        	        miArbol.removeNode("Docs"); // elimina Docs y su contenido
+	        	        miArbol.exportTrashCanToJSON("TrashCan.json");
+	                    //System.out.print("delete ");
+	                    //int valueDelete = Integer.parseInt(input.nextLine());
+	                    // arbol.delete(valueDelete);
+	                    //System.out.println("Eliminando: " + valueDelete);
+	                    break;
+	                    
+	                case "mv":
+	                    System.out.println("re) RENOMBRAR");
+	                    System.out.println("mov) MOVER");
+	                    System.out.print("Ingrese la orden que desea: ");
+	                    String orden = input.nextLine();
+	                    
+	                    switch (orden) {
+	                        case "re":
+	                        	miArbol.renameNode("Fotos", "Images"); // renombrar
+	                        	miArbol.renameNode("Reportes", "Informes");
+	                        	miArbol.renameNode("Documentos", "Docs");
+	                            // arbol.inorder();
+	                            break;
+	                        case "mov":
+	                        	miArbol.moveNode("vacaciones.jpg", "Docs"); // mover archivo a Docs
+	                        	miArbol.moveNode("resumen.txt", "Informes");
+	                            // arbol.preorder();
+	                            break;
+	                        
+	                        default:
+	                            System.out.println("Opción no válida");
+	                    }
+	                    break;
+	                    
+	                case "5":
+	                    // System.out.println("Altura del árbol: " + arbol.height());
+	                    System.out.println("Altura del árbol: [implementar]");
+	                    break;
+	                    
+	                case "6":
+	                    // System.out.println("Tamaño del arbol: " + arbol.size());
+	                    System.out.println("Tamaño del arbol: [implementar]");
+	                    break;
+	                    
+	                case "export":
+	                    System.out.println("exp) EXPORTAR");
+	                    System.out.println("imp) IMPORTAR");
+	                    System.out.print("Ingrese la opcion que desea: ");
+	                    String choice = input.nextLine();
+	                    
+	                    switch (choice) {
+	                        case "exp":
+	                            // arbol.export("arbol.txt");
+	                            System.out.println("Exportando...");
+	                            miArbol.exportToJSON("Organizacion.json"); 
+	                            
+	                            break;
+	                        case "imp":
+	                            // arbol.load("arbol.txt");
+	                            System.out.println("Importando...");
+	                            miArbol.importFromJSON("Organizacion.json");
+	                            break;
+	                        default:
+	                            System.out.println("Opción no válida");
+	                    }
+	                    break;
+	                    
+	                case "help":
+	                    System.out.println("\n--- AYUDA ---");
+	                    System.out.println("Este programa implementa un árbol binario de búsqueda.");
+	                    System.out.println("Características:");
+	                    System.out.println("- Los valores menores van a la izquierda");
+	                    System.out.println("- Los valores mayores van a la derecha");
+	                    System.out.println("\nOperaciones disponibles:");
+	                    System.out.println("1. insert: Agrega un nuevo valor al árbol");
+	                    System.out.println("2. search: Encuentra un valor en el árbol");
+	                    System.out.println("3. delete: Remueve un valor del árbol");
+	                    System.out.println("4. order: Muestra los valores en diferente orden");
+	                    System.out.println("4.1. in: Izquierda/Raiz/Derecha");
+	                    System.out.println("4.2. pre: Raiz/Izquierda/Derecha");
+	                    System.out.println("4.3. post: Izquierda/Derecha/Raiz");
+	                    System.out.println("5. height: Muestra la altura del árbol");
+	                    System.out.println("6. size: Muestra el número de nodos");
+	                    System.out.println("7. export: Exporta el árbol a un formato");
+	                    System.out.println("7.1. exp: Exporta el arbol a un formato");
+	                    System.out.println("7.2. imp: Importa el arbol a un formato");
+	                    System.out.println("8. help: Menu de ayuda");
+	                    System.out.println("9. exit: Termina el programa");
+	                    break;
+	                    
+	                case "exit":
+	                    System.out.println("Programa terminado");
+	                    input.close();
+	                    return;
+	                case "show":
+	                	miArbol.displayTree();
+	                	break;
+	                    
+	                default:
+	                    System.out.println("Opción no válida. Intente de nuevo.");
+	        }
 	        
-	        System.out.println("Sistema iniciado correctamente");
-	        System.out.println("   Usa F1 en la ventana para ayuda");
+	        
+	        
+	    	
+	    	
 	        
 	        // Pruebas de Consistencia (Día 3)
 	        System.out.println("\n--- CONSISTENCIA ---");
@@ -271,7 +453,7 @@ public class Arbol {
 	        System.out.println("Tamaño esperado: " + expectedSize + " | Tamaño real: " + miArbol.getSize()); 
 	        System.out.println("Altura esperada: " + expectedHeight + " | Altura real: " + miArbol.getHeight()); 
 
-	        miArbol.exportToJSON("Organizacion.json");
+	        
 	        
 	        if (miArbol.getSize() == expectedSize && miArbol.getHeight() == expectedHeight) {
 	             System.out.println("Tamaño y Altura correctos.");
@@ -281,11 +463,10 @@ public class Arbol {
 	        miArbol.displayTree();
 	        
 	        // ============= PRUEBA DE RENOMBRAR Y MOVER ================ 
-	        miArbol.renameNode("Fotos", "Images"); // renombrar
-	        miArbol.moveNode("vacaciones.jpg", "Docs"); // mover archivo a Docs
 	        
-	        // ================= PRUEBA DE ELIMINACIÓN ===================
-	        miArbol.removeNode("Docs"); // elimina Docs y su contenido 
+	        
+	        
+	        
 	        
 	        //int expectedSizeAfterDelete = 2;
 	        //int expectedTrashSize = 3; 
@@ -296,12 +477,13 @@ public class Arbol {
 	        miArbol.searchAutocomplete("repo"); 
 
 	        // Prueba de Operaciones (Día 3)
-	        miArbol.renameNode("Reportes", "Informes");
-	        miArbol.moveNode("resumen.txt", "Informes");
+	        
+	        
 	        
 	        // Prueba de Persistencia (Día 4)
-	        miArbol.exportToJSON("Organizacion.json"); 
+	       
 
 	        miArbol.displayTree();
 	    }
-	}
+	    }
+}
