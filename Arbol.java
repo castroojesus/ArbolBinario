@@ -1,10 +1,10 @@
-package ProyectoArboles;
+//package ProyectoArboles;  le tuve que poner como comentario porque me daba error aqui en vs code pero lo estamo haciendo en eclipse java
 
 import java.util.List;
 import java.util.Scanner;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+//import com.google.gson.Gson; le tuve que poner como comentario porque me daba error aqui en vs code pero lo estamo haciendo en eclipse java
+//import com.google.gson.GsonBuilder;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -25,10 +25,10 @@ public class Arbol {
 	        this.trashCan = new ArrayList<>(); 
 	        this.nameTrie = new Trie(); 
 	        this.nameTrie.insert(rootName, this.root.getId()); 
-	        this.gson = new GsonBuilder()
-	                .setPrettyPrinting()  // JSON bien formateado
-	                .serializeNulls()     // Mostrar campos nulos
-	                .create();
+	        this.gson = new GsonBuilder()                                
+	               .setPrettyPrinting()  // JSON bien formateado       
+	                .serializeNulls()     // Mostrar campos nulos       
+	                .create();  										  
 	    }
 	    
 	    
