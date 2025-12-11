@@ -1,3 +1,5 @@
+package ProyectoArboles;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +34,7 @@ public class Trie {
         for (char ch : processedPrefix.toCharArray()) {
             if (!current.getChildren().containsKey(ch)) {
                 return results;
-            }
+            }                    
             current = current.getChildren().get(ch);
         }
 
