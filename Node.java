@@ -1,4 +1,4 @@
-//package ProyectoArboles;
+//package ProyectoArboles ;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +30,7 @@ public class Node {
 	            this.contenido = null;
 	        }
 	    }
-
-	    // --- Getters y Setters ---
-
+	    
 	    public String getId() { return id; }
 	    public String getNombre() { return nombre; }
 	    public void setNombre(String nombre) { this.nombre = nombre; }

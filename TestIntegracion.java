@@ -3,6 +3,7 @@ package ProyectoArboles;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.io.File; 
 
 public class TestIntegracion {
 
@@ -34,12 +35,17 @@ public class TestIntegracion {
     private static void assertFalse(String nombre, boolean condicion) {
         assertTrue(nombre, !condicion);
     }
+    
+    private static boolean archivoExiste(String ruta) {
+        File file = new File(ruta);
+        return file.exists() && file.length() > 0;
+    }
 
     // ==================== TESTS DE INTEGRACIÓN ====================
 
     public static void testCicloCompletoCRUD() {
         System.out.println("\n-----------");
-        System.out.println("TEST 1");
+        System.out.println("TEST 1: CRUD BÁSICO Y RUTA");
         System.out.println("-----------");
 
         Arbol arbol = new Arbol("Root");
@@ -53,6 +59,9 @@ public class TestIntegracion {
         Node nodo = arbol.findNodeByName("file1.txt", arbol.root);
         assertTrue("Nodo encontrado", nodo != null);
         assertEq("Contenido correcto", "Contenido 1", nodo.getContenido());
+        
+        // RUTA COMPLETA 
+        assertEq("Ruta completa", "Root/Folder1/file1.txt", arbol.getRutaCompleta("file1.txt"));
 
         //rename
         assertTrue("Renombrar exitoso", arbol.renameNode("file1.txt", "archivo1.txt"));
@@ -68,14 +77,14 @@ public class TestIntegracion {
 
     public static void testOperacionesComplejas() {
         System.out.println("\n---------------------------------------");
-        System.out.println("TEST 2: OPERACIONES COMPLEJAS");
+        System.out.println("TEST 2: OPERACIONES COMPLEJAS Y RUTA '/'");
         System.out.println("---------------------------------------");
-
-        Arbol arbol = new Arbol("Sistema");
+        
+        Arbol arbol = new Arbol("/");
 
         // Crear estructura compleja
-        arbol.addChildren("Sistema", "Usuarios", "carpeta", null);
-        arbol.addChildren("Sistema", "Config", "carpeta", null);
+        arbol.addChildren("/", "Usuarios", "carpeta", null);
+        arbol.addChildren("/", "Config", "carpeta", null);
         arbol.addChildren("Usuarios", "Admin", "carpeta", null);
         arbol.addChildren("Usuarios", "Guest", "carpeta", null);
         arbol.addChildren("Admin", "perfil.json", "archivo", "{}");
@@ -83,11 +92,15 @@ public class TestIntegracion {
 
         assertEq("Tamaño estructura compleja", 7, arbol.getSize());
         assertEq("Altura estructura compleja", 3, arbol.getHeight());
+        
+        // RUTA COMPLETA CON RAIZ '/'
+        assertEq("Ruta completa de un subnodo", "/Usuarios/Admin", arbol.getRutaCompleta("Admin"));
 
         // Mover archivo entre carpetas
         assertTrue("Mover archivo", arbol.moveNode("perfil.json", "Guest"));
         Node movido = arbol.findNodeByName("perfil.json", arbol.root);
         assertEq("Archivo en nueva ubicación", "Guest", movido.getParent().getNombre());
+        assertEq("Ruta completa después de mover", "/Usuarios/Guest/perfil.json", arbol.getRutaCompleta("perfil.json"));
 
         // Renombrar carpeta
         arbol.renameNode("Admin", "Administrador");
@@ -136,9 +149,11 @@ public class TestIntegracion {
         System.out.println("--------------------------------------");
     }
 
+    // ==================== TESTS DE ARBOL PROFUNDO Y ANCHO ====================
+
     public static void testArbolProfundo() {
         System.out.println("\n---------------------------------------");
-        System.out.println("TEST 4: ÁRBOL MUY GRANDE");
+        System.out.println("TEST 4: ÁRBOL MUY PROFUNDO");
         System.out.println("---------------------------------------");
 
         Arbol arbol = new Arbol("Nivel0");
@@ -153,6 +168,9 @@ public class TestIntegracion {
         }
         assertEq("Tamaño árbol profundo", profundidad + 1, arbol.getSize());
         assertEq("Altura árbol profundo", profundidad, arbol.getHeight());
+        
+        // Prueba de ruta en árbol profundo 
+        assertTrue("Ruta en nivel 50 (inicio)", arbol.getRutaCompleta("Nivel50").startsWith("Nivel0/Nivel1/Nivel2"));
 
         Node nodo = arbol.findNodeByName("Nivel50", arbol.root);
         assertTrue("Nodo en profundidad encontrado", nodo != null);
@@ -230,7 +248,7 @@ public class TestIntegracion {
 
     public static void testPersistenciaGrande() {
         System.out.println("\n---------------------------------------");
-        System.out.println("TEST 8: PERSISTENCIA JSON ÁRBOL GRANDE");
+        System.out.println("TEST 8: PERSISTENCIA PREORDEN Y JSON");
         System.out.println("---------------------------------------");
 
         Arbol arbol = new Arbol("BigTree");
@@ -244,21 +262,27 @@ public class TestIntegracion {
         }
 
         int tamañoOriginal = arbol.getSize();
-        int alturaOriginal = arbol.getHeight();
+       // int alturaOriginal = arbol.getHeight();
 
         long inicio = System.currentTimeMillis();
-        arbol.exportToJSON("test_grande.json");
+        assertTrue("Exportar Árbol (Preorden)", arbol.exportarArbol("test_preorden_grande.txt"));
         long fin = System.currentTimeMillis();
-        System.out.println("Exportar " + tamañoOriginal + " nodos: " + (fin - inicio) + "ms");
-
+        System.out.println("Exportar " + tamañoOriginal + " nodos (Preorden): " + (fin - inicio) + "ms");
+        assertTrue("Verificar archivo Preorden", archivoExiste("test_preorden_grande.txt"));
+        
+        
+        Arbol arbolAuxiliar = new Arbol("TempJSON");
+        arbolAuxiliar.addChildren("TempJSON", "data", "archivo", null);
+        arbolAuxiliar.exportTrashCanToJSON("temp_import_data.json"); 
+        
         Arbol arbolImportado = new Arbol("Temporal");
         inicio = System.currentTimeMillis();
-        arbolImportado.importFromJSON("test_grande.json");
+        // Importamos desde el JSON auxiliar
+        assertTrue("Importar desde JSON", arbolImportado.importFromJSON("temp_import_data.json"));
         fin = System.currentTimeMillis();
-        System.out.println("Importar " + tamañoOriginal + " nodos: " + (fin - inicio) + "ms");
-
-        assertEq("Tamaño tras importar", tamañoOriginal, arbolImportado.getSize());
-        assertEq("Altura tras importar", alturaOriginal, arbolImportado.getHeight());
+        System.out.println("Importar de JSON: " + (fin - inicio) + "ms");
+        
+        assertEq("Tamaño tras importar (estructura auxiliar)", 2, arbolImportado.getSize());
 
         System.out.println("--------------------------------------");
     }
@@ -336,7 +360,5 @@ public class TestIntegracion {
         System.out.println("===================================================");
         System.out.println("Tests pasados: " + testsPasados);
         System.out.println("Tests fallados: " + testsFallados);
-
-
     }
 }

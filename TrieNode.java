@@ -15,7 +15,7 @@ public class TrieNode {
         nodeId = null;
     }
     
-    // getters y setters
+    // getters y setters para modificaciones
 
     public Map<Character, TrieNode> getChildren() { return children; }
     public boolean isEndOfWord() { return isEndOfWord; }
