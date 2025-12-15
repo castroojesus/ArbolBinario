@@ -17,60 +17,60 @@ El siguiente script demuestra la implementación de las estructuras y operacione
 ## Paso 1: configuración inicial (creación)
   Se inicia el árbol en / y se crean las carpetas y archivos iniciales.  
   1. Comando: mkdir
-    - carpeta padre: /
-    - nombre nueva carpeta: Documentos
-    - "Creado exitsamente"
+* carpeta padre: /
+*  nombre nueva carpeta: Documentos
+*   "Creado exitsamente"
   
   2. Comando: touch         
-    - carpeta padre: Documentos
-    - nombre del archivo: lista.txt
-    - contenido (opcional): Estructura de datos
-    -  "Creado exitsamente" 
+* carpeta padre: Documentos
+*  nombre del archivo: lista.txt
+*   Contenido (opcional): Estructura de datos
+*     Creado exitsamente" 
   
  
 ## Paso 2: pruebas de consistencia del árbol
 Se valida la estructura después de las operaciones de creación (Ej. 4 carpetas + 2 archivos = 6 nodos).
- - Comando: info
- - Resultado:
- - Tamaño: 5 nodos
- - Altura: 2 niveles
+* Comando: info
+*  Resultado:
+*  Tamaño: 5 nodos
+*  Altura: 2 niveles
 
 ## Paso 3: manipulación y búsqueda (mv, rename, search)
 1. Comando: mv 
-  - Elemento a mover: lista.txt
-  - Carpeta destino: Datos
-  - Movido: lista.txt -> Datos
+* Elemento a mover: lista.txt
+*  Carpeta destino: Datos
+*   Movido: lista.txt -> Datos
 
 2.Comando: rename
-  - Nombre actual:  Datos
-  - Nuevo nombre: DatosArbol
-  - Renombrado: Datos -> DatosArbol
+* Nombre actual:  Datos
+* Nuevo nombre: DatosArbol
+*  Renombrado: Datos -> DatosArbol
 
 3. Comando: search
-  - Prefijo a buscar: Docs
+* Prefijo a buscar: Docs
 
-  - Autocompletado para 'Docs':
-    - Docs [ID: ffa6...]
+* Autocompletado para 'Docs':
+     *  Docs [ID: ffa6...]
 
    
 ## Paso 4: persistencia (export e import)   
 Se guarda el estado del árbol y se restaura.
 
 1. Comando: export
-  - Nombre del archivo: lista.txt
-  - Árbol exportado a: lista.txt
-  - ¿Exportar papelera también? (s/n): n
+* Nombre del archivo: lista.txt
+*  Árbol exportado a: lista.txt
+*   ¿Exportar papelera también? (s/n): n
 
 2. Comando: rm
-  - Nombre del elemento a eliminar: lista.txt
-  - Eliminado: lista.txt (movido a papelera)
+* Nombre del elemento a eliminar: lista.txt
+*  Eliminado: lista.txt (movido a papelera)
 
 3.Comando: tree
 ESTRUCTURA DEL ÁRBOL  
 ═══════════════════════════════  
 [DIR] /  
-  [DIR] DatosArbol  
-    [DIR] Docs  
+   [DIR] DatosArbol  
+     [DIR] Docs  
 ═══════════════════════════════
 
 
@@ -86,27 +86,27 @@ Este programa implementa un árbol binario de búsqueda.
 Los valores menores van a la izquierda.  
 Los valores mayores van a la derecha.
 
-COMANDOS PRINCIPALES:
-  mkdir   - Crea una nueva carpeta
-  touch   - Crea un nuevo archivo
-  rm      - Elimina un elemento (va a papelera)
-  mv      - Mueve un elemento a otra carpeta
-  rename  - Cambia el nombre de un elemento
-  search  - Busca elementos con autocompletado
+### COMANDOS PRINCIPALES:
+* `mkdir` - Crea una nueva carpeta
+* `touch` - Crea un nuevo archivo
+* `rm` - Elimina un elemento (va a papelera)
+* `mv` - Mueve un elemento a otra carpeta
+* `rename` - Cambia el nombre de un elemento
+* `search` - Busca elementos con autocompletado
 
-VISUALIZACIÓN:
-  tree    - Muestra la estructura completa
-  info    - Estadísticas del árbol
-  trash   - Ver/vaciar papelera de reciclaje
+### VISUALIZACIÓN:
+* `tree` - Muestra la estructura completa
+* `info` - Estadísticas del árbol
+* `trash` - Ver/vaciar papelera de reciclaje
 
-PERSISTENCIA:
-  export  - Guarda el árbol en formato JSON
-  import  - Carga un árbol desde JSON
+### PERSISTENCIA:
+* `export` - Guarda el árbol en formato JSON
+* `import` - Carga un árbol desde JSON
 
-CARACTERÍSTICAS:
-  - Autocompletado con Trie
-  - Papelera de reciclaje
-  - Tests de integración incluidos
+### CARACTERÍSTICAS:
+* Autocompletado con Trie
+* Papelera de reciclaje
+* Tests de integración incluidos
 ═══════════════════════════════════════════════════════
 
 
