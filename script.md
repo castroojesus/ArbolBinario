@@ -108,6 +108,7 @@ Los valores mayores van a la derecha.
 * Autocompletado con Trie
 * Papelera de reciclaje
 * Tests de integración incluidos
+  
 ═══════════════════════════════════════════════════════
 
 
