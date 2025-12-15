@@ -1,6 +1,7 @@
 # SCRIPT DE EJECUCIÓN: DEMO DEL SISTEMA DE GESTIÓN DE ARCHIVOS
 
 1. Configuración del entorno
+
    1.1. Compilación de las clases
 Abrir la terminal en la carpeta raíz del proyecto (ProyectoArboles) y compilar todos los archivos .java con el comando:  
 
@@ -11,7 +12,7 @@ En la terminal, ingresar el comando para iniciar el programa:
 
              java Arbol   
            
-2. Script de demostración
+3. Script de demostración
 El siguiente script demuestra la implementación de las estructuras y operaciones principales requeridas (mkdir, touch, rm, mv, rename, search, export json, import json, help, test, exit).  
    
 ## Paso 1: configuración inicial (creación)
@@ -41,7 +42,7 @@ Se valida la estructura después de las operaciones de creación (Ej. 4 carpetas
 *  Carpeta destino: Datos
 *   Movido: lista.txt -> Datos
 
-2.Comando: `rename`
+2. Comando: `rename`
 * Nombre actual:  Datos
 * Nuevo nombre: DatosArbol
 *  Renombrado: Datos -> DatosArbol
