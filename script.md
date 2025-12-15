@@ -112,9 +112,9 @@ Los valores mayores van a la derecha.
 
 
 2. Comando: `test`
-===================================================
-=                      RESUMEN                      =
-===================================================
+   
+RESUMEN:   
+
 Tests pasados: 29
 Tests fallados: 0
 
