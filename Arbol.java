@@ -1,4 +1,4 @@
-//package ProyectoArboles;
+package ProyectoArboles;
 
 import java.util.List;
 import java.util.Scanner;
@@ -76,7 +76,6 @@ public class Arbol {
             return false;
         }
         
-        // verificar si ya existe un hijo con ese nombre
         for (Node existingChild : folder.getChildren()) {
             if (existingChild.getNombre().equals(child)) {
                 System.out.println("Error: Ya existe '" + child + "' en '" + parent + "'");
@@ -87,7 +86,7 @@ public class Arbol {
         Node newNode = new Node(child, childtype, content, folder);
         folder.getChildren().add(newNode);
         this.nameTrie.insert(newNode.getNombre(), newNode.getId());
-        this.nodeMap.put(newNode.getId(), newNode); // añadir al Mapa Hash
+        this.nodeMap.put(newNode.getId(), newNode); 
         
         System.out.println("Creado exitosamente: " + child);
         return true;
@@ -169,7 +168,7 @@ public class Arbol {
             }
         }
         
-        this.nameTrie.insert(newName, target.getId()); // actualizar Trie
+        this.nameTrie.insert(newName, target.getId()); 
         target.setNombre(newName);
         
         System.out.println("Renombrado: " + oldName + " -> " + newName);
@@ -204,18 +203,14 @@ public class Arbol {
         return calculateSize(this.root); 
     }
 
-    // ================= PERSISTENCIA ====================
+    // ================= PERSISTENCIA AJUSTADA ====================
     
     public boolean exportarArbol(String rutaArchivo) {
-        List<String> recorrido = new ArrayList<>();
-        recorridoPreorden(this.root, recorrido); // Obtiene el recorrido completo
-        
         try (FileWriter writer = new FileWriter(rutaArchivo)) {
-            writer.write("RECORRIDO PREORDEN:\n");
-            for (String item : recorrido) {
-                writer.write(item + "\n");
-            }
-            System.out.println("Árbol exportado (Preorden) a: " + rutaArchivo);
+            
+            gson.toJson(this.root, writer); 
+            
+            System.out.println("Árbol exportado exitosamente en formato JSON (Preorden) a: " + rutaArchivo);
             return true;
         } catch (IOException e) {
             System.out.println("Error al exportar: " + e.getMessage());
@@ -223,14 +218,10 @@ public class Arbol {
         }
     }
     
-    // MÉTODO PARA EL EXPORT DE PREORDEN
+    
     private void recorridoPreorden(Node node, List<String> recorrido) {
         if (node == null) return;
-
-        // visitar el nodo
         recorrido.add(node.getNombre() + " (" + node.getTipo() + ")");
-
-        // recorrer los hijos
         if (node.getChildren() != null) {
             for (Node child : node.getChildren()) {
                 recorridoPreorden(child, recorrido);
@@ -259,8 +250,8 @@ public class Arbol {
             }
             
             this.root = nuevoArbol;
-            this.nameTrie = new Trie(); // limpiar Trie
-            this.nodeMap = new HashMap<>(); // limpiar Mapa Hash
+            this.nameTrie = new Trie(); 
+            this.nodeMap = new HashMap<>(); 
             
             reconstruirPadres(this.root, null);
             reconstruirIndices(this.root); 
@@ -298,7 +289,7 @@ public class Arbol {
         if (nodo == null) return;
         
         this.nameTrie.insert(nodo.getNombre(), nodo.getId());
-        this.nodeMap.put(nodo.getId(), nodo); // rellenar Mapa Hash
+        this.nodeMap.put(nodo.getId(), nodo); 
         
         if (nodo.getChildren() != null) {
             for (Node hijo : nodo.getChildren()) {
@@ -488,9 +479,9 @@ public class Arbol {
                     break;
                     
                 case "10": case "export": 
-                    System.out.print("Nombre del archivo de exportación (ej: arbol.txt): ");
+                    System.out.print("Nombre del archivo de exportación (ej: arbol.json): ");
                     String archivoExp = input.nextLine().trim();
-                    if (archivoExp.isEmpty()) archivoExp = "arbol.txt";
+                    if (archivoExp.isEmpty()) archivoExp = "arbol.json";
                     miArbol.exportarArbol(archivoExp);
                     
                     System.out.print("¿Exportar papelera también a JSON? (s/n): ");
@@ -510,7 +501,7 @@ public class Arbol {
                     
                 case "12": case "test":
                     System.out.println("\nEjecutando tests de integración...\n");
-                    TestIntegracion.main(null);
+                     TestIntegracion.main(null); 
                     break;
                     
                 case "13": case "path":
