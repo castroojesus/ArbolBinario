@@ -1,7 +1,7 @@
 # ArbolBinario
 
-![Java](https://img.shields.io/badge/Java-17+-orange)
-![Gson](https://img.shields.io/badge/JSON-Gson-green)
+[![Java](https://img.shields.io/badge/Java-17+-orange)](https://www.oracle.com/java/)
+[![Gson](https://img.shields.io/badge/JSON-Gson-green)](https://github.com/google/gson)
 
 Este proyecto simula un cmd de windows, donde puedes usar los comandos de la terminal para crear carpetas y archivos, renombrar, mover, eliminar y exportar dichas carpetas y archivos con la finalidad de entender mas a fondo como funcionan los arboles binarios de busqueda
 
@@ -20,14 +20,26 @@ Este proyecto simula un cmd de windows, donde puedes usar los comandos de la ter
 
 ##  Requisitos
 
-* Software necesario
-* Librerías / dependencias
+* Java JDK 11 o superior
+* Eclipse IDE o VS Code
+* Libreria GSON 2.10.1
 
-## 🛠️ Instalación
+##  Instalación
 
-1. Descarga el repositorio.
-2. Abre el proyecto en tu entorno de desarrollo.
-3. Compila o ejecuta según las instrucciones de tu profesor.
+1. Clonar el repositorio
+   ```cmd
+   git clone https://github.com/castroojesus/ArbolBinario/tree/main
+   ```
+2. Abrir tu IDE Eclipse
+3. Compilación de las clases Abrir la terminal en la carpeta raíz del proyecto (ProyectoArboles o donde hayas guardado los archivos) y compilar todos los archivos .java con el comando:
+   ```cmd
+   javac *.java
+   ```
+4. Compilar el proyecto con el siguiente comando:
+   ```cmd
+   java Arbol
+   ```
+
 
 ## ▶️ Cómo Usarlo
 
