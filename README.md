@@ -5,7 +5,7 @@ Este proyecto simula un cmd de windows, donde puedes usar los comandos de la ter
 ##  Características
 
 * Este programa lo que hace es:
-** Crea
+* *Crea
 * Qué problema resuelve.
 * Qué funcionalidades incluye.
 
