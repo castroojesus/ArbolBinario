@@ -1,42 +1,48 @@
 # ArbolBinario
 
-MVP (Mínimo Producto Viable). Día 1:
-Para esta fase incial nos enfocamos en establecer la estructura de datos central y los elementos esenciales para la implementación de las operaciones del sistema de archivos. 
-1. Modelo del nodo: la estructura incluye id, nombre, tipo, children y contenido.
-2. Mecanismo de persistencia JSON: se estableció el formato json para guardar o cargar las estructuras.
+Este proyecto simula un cmd de windows, donde puedes usar los comandos de la terminal para crear carpetas y archivos, renombrar, mover, eliminar y exportar dichas carpetas y archivos con la finalidad de entender mas a fondo como funcionan los arboles binarios de busqueda
 
-El proyecto se realizará en JAVA debido a que nos parece más sencillo trabajar la eliminación recursiva, además de que es más seguro y claro.
+##  Características
 
-Proyecto trabajado por:
--Castro Sepúlveda Jesús Alfonso
--Soto Barbosa Carolina Denisse
+* Este programa lo que hace es:
+** Crea
+* Qué problema resuelve.
+* Qué funcionalidades incluye.
 
-# 🌳 ArbolBinario
+## 📦 Requisitos
 
-¡Bienvenid@ al árbol más cute de GitHub! 👀✨  
-Este proyecto es una implementación de una **estructura de datos de árbol binario** en Java, pensada como base para operaciones y ejercicios con árboles (inserción, recorridos, etc). :contentReference[oaicite:1]{index=1}
+* Software necesario
+* Librerías / dependencias
 
----
+## 🛠️ Instalación
 
-## 🧠 ¿Qué es este proyecto?
+1. Descarga el repositorio.
+2. Abre el proyecto en tu entorno de desarrollo.
+3. Compila o ejecuta según las instrucciones de tu profesor.
 
-ArbolBinario es un MVP que define y trabaja con una estructura tipo **árbol binario**.  
-Un árbol binario es una estructura donde cada nodo puede tener hasta dos hijos — izquierdo y derecho — lo cual lo hace ideal para búsquedas eficientes y organización jerárquica de datos. :contentReference[oaicite:2]{index=2}
+## ▶️ Cómo Usarlo
 
-Este repo incluye:
-- 📦 Clases Java para nodos y árbol
-- 🧪 Código de ejemplo / tests básicos
-- 📝 Documentación de uso
+1. Ejecuta el programa.
+2. Sigue las instrucciones en pantalla.
+3. Interactúa con el menú o la interfaz.
 
-> Proyecto hecho en Java por **Jesús Alfonso Castro Sepúlveda** y **Carolina Denisse Soto Barbosa**. :contentReference[oaicite:3]{index=3}
+## 📄 Ejemplo
 
----
+```
+> Usuario ingresa: X  
+> Programa responde: Y  
+```
 
-## 🚀 Comenzando (cómo ejecutarlo)
+## 🧩 Estructura del Proyecto
 
-Estos pasos te ayudan a ponerlo en marcha localmente:
+* /src — código fuente
+* /docs — documentación
+* README.md — este archivo
 
-### 📥 Clonar el repo
-```bash
-git clone https://github.com/castroojesus/ArbolBinario.git
-cd ArbolBinario
+## ✨ Autor
+
+* Tu nombre
+
+
+
+
