@@ -1,15 +1,24 @@
 # ArbolBinario
 
+![Java](https://img.shields.io/badge/Java-17+-orange)
+![Gson](https://img.shields.io/badge/JSON-Gson-green)
+
 Este proyecto simula un cmd de windows, donde puedes usar los comandos de la terminal para crear carpetas y archivos, renombrar, mover, eliminar y exportar dichas carpetas y archivos con la finalidad de entender mas a fondo como funcionan los arboles binarios de busqueda
 
 ##  Características
 
 * Este programa lo que hace es:
-* *Crea
-* Qué problema resuelve.
-* Qué funcionalidades incluye.
+  * Gestionar archivos:
+    * Crear carpetas/archivos
+    * Eliminar carpetas/archivos
+    * Mover carpetas/archivos
+    * Renombrar
+    * Exportar el orden jerarquico en un .json
+    * Importar desde el .json
+    * Busqueda con autocompletado
+* Cuenta con un menu interactivo e intuitivo facil de entender
 
-## 📦 Requisitos
+##  Requisitos
 
 * Software necesario
 * Librerías / dependencias
