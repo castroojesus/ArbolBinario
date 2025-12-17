@@ -128,24 +128,39 @@ Los valores mayores van a la derecha.
 
 * Comando: `test`
    
-RESUMEN:   
+  * RESUMEN:   
 
-Tests pasados: 29
-Tests fallados: 0
+  * Tests pasados: 29
+  * Tests fallados: 0
 
 * Comando: `exit`
 
-BYE...
+  * BYE...
 
-## 🧩 Estructura del Proyecto
+## Estructura del Proyecto
 
-* /src — código fuente
-* /docs — documentación
-* README.md — este archivo
+* /.vscode
+  * settings.json 
+* /lib
+  * gson-2.10.1.jar
+* Arbol.class
+* Arbol.java
+* Documentacion de uso - Sistema de Arbol de Archivos (CMD en Java).docx
+* Node.class
+* Node.java
+* Organizacion.json
+* README.md
+* TestIntegracion.java
+* Trie.class
+* Trie.java
+* TrieNode.class
+* TrieNode.java
+* script.md
 
-## ✨ Autor
+## Autor
 
-* Tu nombre
+* Castro Sepulveda Jesus Alfonso
+* Soto Barbosa Carolina Denisse
 
 
 
